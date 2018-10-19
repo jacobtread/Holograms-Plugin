@@ -1,14 +1,17 @@
 package me.jacobtread.holograms.impl;
 
 import me.jacobtread.holograms.Plugin;
-import me.jacobtread.holograms.api.Config;
-import me.jacobtread.holograms.api.Hologram;
+import me.jacobtread.holograms.impl.commands.MainCommand;
+import me.jacobtread.holograms.utils.Config;
+import me.jacobtread.holograms.utils.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.bukkit.ChatColor.*;
 
 /**
  * -
@@ -30,6 +33,8 @@ import java.util.List;
 public enum Holograms {
     GET;
 
+    public final String cmdPrefix = DARK_GRAY + "[" + AQUA + "Holograms" + DARK_GRAY + "] " + RESET;
+    public double version = 2.1;
     public Plugin plugin;
     public List<Hologram> holograms;
     public Config config;
@@ -42,7 +47,8 @@ public enum Holograms {
      */
     public void onEnable(Plugin plugin) {
         this.plugin = plugin;
-        this.plugin.getCommand("hologram").setExecutor(new MainCommand());
+        this.plugin.getCommand("hologram").setExecutor(MainCommand.GET);
+        MainCommand.GET.setup();
         this.holograms = new ArrayList<>();
         this.config = new Config();
         this.config.load();
@@ -96,7 +102,7 @@ public enum Holograms {
         hologram.destroy();
         this.holograms.remove(hologram);
         this.config.save(holograms);
-        player.sendMessage(MainCommand.cmdPrefix + "Deleted " + hologram.getName());
+        player.sendMessage(cmdPrefix + "Deleted " + hologram.getName());
     }
 
     /**

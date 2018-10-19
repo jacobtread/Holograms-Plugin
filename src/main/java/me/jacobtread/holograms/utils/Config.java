@@ -1,4 +1,4 @@
-package me.jacobtread.holograms.api;
+package me.jacobtread.holograms.utils;
 
 import me.jacobtread.holograms.Plugin;
 import me.jacobtread.holograms.impl.Holograms;

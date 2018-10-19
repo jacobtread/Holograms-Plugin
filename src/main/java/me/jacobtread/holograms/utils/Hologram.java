@@ -1,6 +1,7 @@
-package me.jacobtread.holograms.api;
+package me.jacobtread.holograms.utils;
 
 import me.jacobtread.holograms.impl.Holograms;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.ArmorStand;
@@ -75,17 +76,19 @@ public class Hologram {
         this.initialLocation = initialLocation;
     }
 
+    /**
+     * @param index The location in the lines array the hologram is
+     * @param line  The text for the holograms name-tag
+     */
     private void setupEntity(int index, String line) {
         Location location = new Location(initialLocation.getWorld(), initialLocation.getX(), initialLocation.getY() + (index * -0.25), initialLocation.getZ());
-        Entity found = EntityUtils.GET.findEntityAt(location, EntityType.ARMOR_STAND, line);
+        Entity found = findEntityAt(location, line);
         if (found == null) {
             World world = location.getWorld();
             found = world.spawnEntity(location, EntityType.ARMOR_STAND);
         }
         if (found instanceof ArmorStand) {
             ArmorStand entity = (ArmorStand) found;
-            entity.setCollidable(false);
-            entity.setInvulnerable(true);
             entity.setVisible(false);
             entity.setBasePlate(false);
             entity.setCustomNameVisible(true);
@@ -93,6 +96,25 @@ public class Hologram {
             entity.setCustomName(line);
             this.armorStands.put(line, entity);
         }
+    }
+
+    /**
+     * Search a location for an entity of a specific type
+     *
+     * @param location The location to search for entities
+     * @return Returns an entity if found otherwise returns null
+     */
+    private Entity findEntityAt(Location location, String name) {
+        for (Entity entity : location.getChunk().getEntities()) {
+            Location pos = entity.getLocation();
+            if (pos.getX() >= location.getX() - 2 && pos.getY() >= location.getY() - 3 && pos.getZ() >= location.getZ() - 2) {
+                if (pos.getX() <= location.getX() + 2 && pos.getY() <= location.getY() + 3 && pos.getZ() <= location.getZ() + 2) {
+                    if (entity.getType().equals(EntityType.ARMOR_STAND) && entity.getCustomName() != null && ChatColor.stripColor(entity.getCustomName()).equalsIgnoreCase(ChatColor.stripColor(name)))
+                        return entity;
+                }
+            }
+        }
+        return null;
     }
 
     /**
@@ -178,7 +200,7 @@ public class Hologram {
      *
      * @return The location in which the hologram was placed
      */
-    public Location getLocation() {
+    Location getLocation() {
         return initialLocation;
     }
 }

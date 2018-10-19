@@ -7,3 +7,7 @@ commands:
   hologram:
     description: Main command for holograms
     aliases: [holo, holograms]
+    permission: hologram.main
+permissions:
+  hologram.main:
+    description: Allows use of the plugin
