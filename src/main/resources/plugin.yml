@@ -1,0 +1,9 @@
+name: Holograms
+version: ${project.version}
+main: me.jacobtread.holograms.Plugin
+author: Jacobtread
+description: A Holograms plugin
+commands:
+  hologram:
+    description: Main command for holograms
+    aliases: [holo, holograms]
