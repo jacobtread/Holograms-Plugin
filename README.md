@@ -1,2 +1,3 @@
 # Holograms-Plugin
-A hologram plugin
+A Plugin for creating floating texts (Holograms) on your Minecraft servers
+
